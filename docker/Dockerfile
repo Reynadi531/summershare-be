@@ -1,20 +1,17 @@
-FROM golang:alpine AS builder
-
-RUN apk update && \
-    apk add make git bash curl openssl alpine-sdk --no-cache
+FROM golang:1.18-buster as builder
 
 WORKDIR /app
 
 COPY . .
+RUN go mod download
 
 RUN make build
 
-FROM alpine:latest
+FROM gcr.io/google.com/cloudsdktool/cloud-sdk:slim
 
 WORKDIR /app
 
-COPY --from=builder /app/bin/main /app/main
+COPY --from=builder /app/bin/main /app/server
+RUN chmod +x /app/server
 
-RUN chmod +x main
-
-CMD ["./main"]
+CMD ["/app/server"]
