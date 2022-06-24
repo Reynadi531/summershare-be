@@ -1,15 +1,20 @@
-FROM golang:1.18 as builder
+FROM golang:alpine AS builder
+
+RUN apk update && \
+    apk add make git bash curl openssl alpine-sdk --no-cache
 
 WORKDIR /app
+
 COPY . .
-
-RUN go mod download
-
-ENV cgo_enabled=0
 
 RUN make build
 
-FROM gcr.io/distroless/static
+FROM alpine:latest
 
-COPY --from=builder /app/bin/main /main
-CMD ["/main"]
+WORKDIR /app
+
+COPY --from=builder /app/bin/main /app/main
+
+RUN chmod +x main
+
+CMD ["./main"]
