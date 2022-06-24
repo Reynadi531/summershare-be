@@ -1,0 +1,26 @@
+version: "3"
+services:
+  summershare-be:
+    build:
+      context: ../
+      dockerfile: docker/dev.Dockerfile
+    ports:
+      - "5000:5000"
+    volumes:
+      - ../:/app
+    env_file:
+      - app.env
+    restart: unless-stopped
+
+  summershare-db:
+    image: postgres:14-alpine
+    volumes:
+      - summershare-db:/var/lib/postgresql/data
+    restart: unless-stopped
+    env_file:
+      - db.env
+    ports:
+      - "5432:5432"
+
+volumes:
+  summershare-db:
