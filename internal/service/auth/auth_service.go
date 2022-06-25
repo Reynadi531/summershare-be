@@ -197,6 +197,7 @@ func (a authService) RefreshToken(id string, refreshToken string) web.Response {
 		StatusCode: fiber.StatusOK,
 		Message:    "refresh token successful",
 		Data: fiber.Map{
+			"id":            user.ID.String(),
 			"token":         jwtToken,
 			"exp":           exp,
 			"refresh_token": user.RefreshToken,
