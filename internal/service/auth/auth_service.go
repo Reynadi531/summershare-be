@@ -86,6 +86,7 @@ func (a authService) Login(username string, password string) web.Response {
 		StatusCode: fiber.StatusOK,
 		Message:    "login successful",
 		Data: fiber.Map{
+			"id":            user.ID.String(),
 			"token":         jwtToken,
 			"exp":           exp,
 			"refresh_token": user.RefreshToken,
