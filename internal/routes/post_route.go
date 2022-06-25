@@ -6,6 +6,7 @@ import (
 	postHandler "summershare/internal/handler/post"
 	postRepo "summershare/internal/repository/post"
 	postService "summershare/internal/service/post"
+	"summershare/pkg/middleware"
 )
 
 func RegisterPostRoute(app *fiber.App, db *gorm.DB) {
@@ -15,8 +16,8 @@ func RegisterPostRoute(app *fiber.App, db *gorm.DB) {
 
 	postRouteGroup := app.Group("/api/v1/post")
 	postRouteGroup.Get("/me", postHandler.ViewSelf)
-	postRouteGroup.Post("/", postHandler.Create)
-	postRouteGroup.Post("/:id", postHandler.Update)
+	postRouteGroup.Post("/", middleware.JWTProtected(), postHandler.Create)
+	postRouteGroup.Post("/:id", middleware.JWTProtected(), postHandler.Update)
 	postRouteGroup.Get("/:id", postHandler.ViewByID)
 	postRouteGroup.Get("/", postHandler.ViewAll)
 }
