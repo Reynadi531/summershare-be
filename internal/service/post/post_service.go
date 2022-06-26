@@ -8,6 +8,7 @@ import (
 	"summershare/internal/entities/web"
 	postRepo "summershare/internal/repository/post"
 	"summershare/pkg/database"
+	"summershare/pkg/utils"
 	"time"
 )
 
@@ -222,6 +223,7 @@ func (p postService) Update(body string, isJoinable bool, postId string, userId 
 
 func (p postService) Create(body string, isJoinable bool, id uuid.UUID) web.Response {
 	post := entities.Post{
+		ID:         utils.GeneratePostId(),
 		Body:       body,
 		IsJoinable: isJoinable,
 		OwnerID:    id,

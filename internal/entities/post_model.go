@@ -6,7 +6,7 @@ import (
 )
 
 type Post struct {
-	ID         int       `gorm:"primary_key;auto_increment" json:"id"`
+	ID         string    `gorm:"primary_key;unique" json:"id"`
 	Body       string    `gorm:"type:text;not_null" json:"body"`
 	IsJoinable bool      `gorm:"type:boolean;not_null" json:"is_joinable"`
 	Owner      User      `gorm:"foreignkey:OwnerID" json:"owner"`
