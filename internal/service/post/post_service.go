@@ -17,7 +17,7 @@ type postService struct {
 }
 
 type SendablePost struct {
-	ID         int    `json:"id"`
+	ID         string `json:"id"`
 	Body       string `json:"body"`
 	IsJoinable bool   `json:"is_joinable"`
 	User       struct {
